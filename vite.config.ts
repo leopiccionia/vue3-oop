@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import vueJsx from '@vue3-oop/plugin-vue-jsx'
 import vue from '@vitejs/plugin-vue'
 import typescript from 'rollup-plugin-typescript2'
+import { createTransformer } from 'static-injector/transform'
 
 export default defineConfig(({ command, mode }) => {
   return {
@@ -12,6 +13,11 @@ export default defineConfig(({ command, mode }) => {
         tsconfigOverride: {
           compilerOptions: { sourceMap: false },
         },
+        transformers: [
+          (service) => ({
+            before: [createTransformer(service.getProgram()!)],
+          }),
+        ],
       }),
       vueJsx(),
     ],

@@ -29,6 +29,7 @@ specifiers:
   rollup-plugin-typescript2: ^0.31.1
   sass: ^1.44.0
   standard-version: ^9.3.2
+  static-injector: ^1.0.9
   tslib: ^2.3.1
   typescript: ^4.5.2
   vite: ^2.6.14
@@ -66,6 +67,7 @@ devDependencies:
   rollup-plugin-typescript2: 0.31.1_typescript@4.5.2
   sass: 1.44.0
   standard-version: 9.3.2
+  static-injector: 1.0.9_typescript@4.5.2
   tslib: 2.3.1
   typescript: 4.5.2
   vite: 2.7.1_sass@1.44.0
@@ -4891,6 +4893,14 @@ packages:
       semver: 7.3.5
       stringify-package: 1.0.1
       yargs: 16.2.0
+    dev: true
+
+  /static-injector/1.0.9_typescript@4.5.2:
+    resolution: {integrity: sha1-SsjeClaoKCdSi5xcmJQ2IQf6MDI=, tarball: static-injector/download/static-injector-1.0.9.tgz}
+    peerDependencies:
+      typescript: ^4.0.0
+    dependencies:
+      typescript: 4.5.2
     dev: true
 
   /strict-uri-encode/1.1.0:
