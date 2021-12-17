@@ -1,6 +1,9 @@
 import { InjectionKey, Prop, SetupContext, VNodeChild } from 'vue'
+import { StaticProvider } from 'static-injector/import/typings/di/interface/provider'
 
 export interface VueComponentStaticContructor {
+  ɵfac?: (...args: any[]) => any
+  ɵprov?: StaticProvider
   new (...args: any[]): any
   /** 组件显示名称 */
   displayName?: string
@@ -16,6 +19,8 @@ export interface VueComponentStaticContructor {
   globalStore?: boolean
   /** 自定义解析组件 */
   resolveComponent?: any
+  providers?: StaticProvider[]
+  asStore?: boolean
   [prop: string]: any
 }
 

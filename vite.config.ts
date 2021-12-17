@@ -6,11 +6,12 @@ import { createTransformer } from 'static-injector/transform'
 
 export default defineConfig(({ command, mode }) => {
   return {
-    esbuild: false, // 不支持装饰器
+    esbuild: false, // esbuild不支持装饰器
     plugins: [
       typescript({
         check: false,
         tsconfigOverride: {
+          // sourcemap有问题,先关闭sm
           compilerOptions: { sourceMap: false },
         },
         transformers: [
@@ -35,8 +36,8 @@ export default defineConfig(({ command, mode }) => {
       target: 'es2015',
       lib: {
         entry: 'src/index.ts',
-        name: 'vue3-oop',
-        fileName: (format) => `vue3-oop.${format}.js`,
+        name: 'vue3-oop-static',
+        fileName: (format) => `vue3-oop-static.${format}.js`,
         formats: ['es', 'cjs'],
       },
       rollupOptions: {

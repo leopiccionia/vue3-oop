@@ -1,13 +1,13 @@
 {
-  "name": "vue3-oop",
-  "version": "0.1.1",
-  "main": "dist/vue3-oop.cjs.js",
-  "module": "dist/vue3-oop.es.js",
+  "name": "vue3-oop-static",
+  "version": "0.0.1",
+  "main": "dist/vue3-oop-static.cjs.js",
+  "module": "dist/vue3-oop-static.es.js",
   "types": "types/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/vue3-oop.es.js",
-      "require": "./dist/vue3-oop.cjs.js"
+      "import": "./dist/vue3-oop-static.es.js",
+      "require": "./dist/vue3-oop-static.cjs.js"
     }
   },
   "scripts": {
@@ -21,7 +21,7 @@
     "chrome": "open -n /Applications/Google\\ Chrome.app/ --args --disable-web-security  --user-data-dir=$HOME/MyChromeDevUserData/",
     "release": "standard-version",
     "github:release": "conventional-github-releaser -p angular",
-    "prepublishOnly": "run-s build release",
+    "prepublishOnly": "run-s build",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs"
@@ -107,7 +107,6 @@
   },
   "peerDependencies": {
     "@abraham/reflection": "^0.8.0",
-    "injection-js": "^2.4.0",
     "static-injector": "^1.0.9",
     "vue": "^3.2.20"
   }

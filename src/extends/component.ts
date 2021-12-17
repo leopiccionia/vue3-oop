@@ -1,10 +1,19 @@
-import { ComponentPublicInstance, getCurrentInstance, InjectionKey, provide, VNodeChild, VNodeProps } from 'vue'
+import {
+  ComponentPublicInstance,
+  defineComponent,
+  getCurrentInstance,
+  InjectionKey,
+  provide,
+  VNodeChild,
+  VNodeProps,
+} from 'vue'
 import { getEmitsFromProps, useCtx, useProps } from '../helper'
 import { Hanlder, VueComponentStaticContructor, WithSlotTypes, WithVModel, WithVSlots } from '../type'
 import { RefHandler } from '../decorators/ref'
 import { ComputedHandler } from '../decorators/computed'
 import { HookHandler } from '../decorators/hook'
 import { LinkHandler } from '../decorators/link'
+import { resolveComponent } from '../di'
 
 export const GlobalStoreKey = 'GlobalStoreKey'
 
@@ -14,34 +23,31 @@ type VueComponentProps<T extends {}> = Omit<T, 'slots'> &
   VNodeProps &
   Record<string, unknown>
 
+defineComponent({})
 export abstract class VueComponent<T extends {} = {}> {
   /** 热更新使用 */
   static __hmrId?: string
   /** 装饰器处理 */
-  static handler: Hanlder[] = [RefHandler, ComputedHandler, LinkHandler, HookHandler]
+  private static handler: Hanlder[] = [RefHandler, ComputedHandler, LinkHandler, HookHandler]
   /** 是否自定义解析组件 */
-  static resolveComponent?: any
-  static __vccOpts__value?: any
+  static resolveComponent = resolveComponent
+  private static __vccOpts__value?: any
   /** 组件option定义,vue3遇到类组件会从此属性获取组件的option */
-  static get __vccOpts() {
+  private static get __vccOpts() {
     if (this.__vccOpts__value) return this.__vccOpts__value
     const CompConstructor = this as unknown as VueComponentStaticContructor
+    const { displayName, ɵfac, ɵprov, defaultProps, providers, ProviderKey, globalStore, asStore, emits, ...args } =
+      CompConstructor
+    console.log(args)
 
     return (this.__vccOpts__value = {
-      ...CompConstructor,
-      name: CompConstructor.displayName || CompConstructor.name,
-      props: CompConstructor.defaultProps || {},
-      inheritAttrs: CompConstructor.inheritAttrs,
-      directives: CompConstructor.directives,
+      ...args,
+      name: displayName || CompConstructor.name,
+      props: defaultProps || {},
       // 放到emits的on函数会自动缓存
-      emits: (CompConstructor.emits || []).concat(getEmitsFromProps(CompConstructor.defaultProps || {})),
+      emits: (emits || []).concat(getEmitsFromProps(CompConstructor.defaultProps || {})),
       setup: (props: any, ctx: any) => {
-        let instance: any
-        if (CompConstructor.resolveComponent) {
-          instance = CompConstructor.resolveComponent(CompConstructor)
-        } else {
-          instance = new CompConstructor()
-        }
+        const instance = CompConstructor.resolveComponent(CompConstructor)
         return instance.render.bind(instance)
       },
     })
